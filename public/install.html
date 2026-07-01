@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get Reps</title>
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#131418"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Hanken+Grotesk:wght@400;500;600&display=swap');
+:root{--bg:#131418;--surface:#1A1C21;--surface2:#23262D;--line:rgba(255,255,255,.08);--line2:rgba(255,255,255,.16);--text:#F1F0EC;--muted:#8B8F97;--faint:#585C64;--accent:#D6A24A;--accent-dim:rgba(214,162,74,.16);--green:#5FB87E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:#0A0B0D;color:var(--text);min-height:100vh;display:flex;justify-content:center;padding:0}
+.wrap{width:440px;max-width:100%;min-height:100vh;background:var(--bg);padding:46px 24px 60px}
+.brand{text-align:center;margin-bottom:30px}
+.brand .ic{width:72px;height:72px;border-radius:20px;background:#131418;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+.brand .ic svg{width:42px;height:42px}
+.brand .lg{font-family:'Space Grotesk';font-weight:700;font-size:30px;letter-spacing:.12em}.brand .lg b{color:var(--accent)}
+.brand p{color:var(--muted);font-size:14px;margin-top:7px}
+.tabs{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:22px}
+.tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-weight:600;font-size:13.5px;padding:11px;border-radius:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px}
+.tabs button.on{background:var(--surface2);color:var(--text)}
+.tabs svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.panel{display:none;animation:fade .3s}.panel.on{display:block}@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:13px}
+.btn{display:flex;width:100%;align-items:center;justify-content:center;gap:9px;border:none;font-family:'Hanken Grotesk';font-weight:600;font-size:15px;border-radius:12px;padding:15px;cursor:pointer;text-decoration:none}
+.btn-accent{background:var(--accent);color:#1a130a}.btn-line{background:transparent;color:var(--text);border:1px solid var(--line2)}
+.btn svg{width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.btn[disabled]{opacity:.4;pointer-events:none}
+.recommend{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:11px}
+h2{font-size:16px;font-weight:600;margin-bottom:5px}.lead{color:var(--muted);font-size:13.5px;line-height:1.5;margin-bottom:16px}
+.steps{list-style:none;counter-reset:s;margin-top:4px}
+.steps li{counter-increment:s;position:relative;padding:11px 0 11px 40px;border-top:1px solid var(--line);font-size:14px;line-height:1.45;color:var(--text)}
+.steps li:first-child{border-top:none}
+.steps li:before{content:counter(s);position:absolute;left:0;top:9px;width:26px;height:26px;border-radius:8px;background:var(--accent-dim);color:var(--accent);font-family:'Space Grotesk';font-weight:600;font-size:13px;display:flex;align-items:center;justify-content:center}
+.steps b{font-weight:600}.steps .share{display:inline-flex;width:20px;height:20px;vertical-align:-5px;margin:0 2px}.steps .share svg{width:20px;height:20px;fill:none;stroke:var(--accent);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.note{font-size:12.5px;color:var(--faint);line-height:1.5;margin-top:14px;text-align:center}
+.divider{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;margin:18px 0}
+.divider:before,.divider:after{content:"";flex:1;height:1px;background:var(--line)}
+.openlink{display:block;text-align:center;margin-top:24px;color:var(--accent);font-weight:600;font-size:14px;text-decoration:none}
+.qr{text-align:center;color:var(--muted);font-size:13px;line-height:1.5}.urlbox{font-family:'Space Grotesk';font-weight:600;background:var(--surface2);border:1px solid var(--line);border-radius:10px;padding:12px;margin-top:10px;word-break:break-all;font-size:13px;color:var(--text)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="ic"><svg viewBox="0 0 24 24"><g fill="#D6A24A"><rect x="3.6" y="7.6" width="2.4" height="8.8" rx="1.2"/><rect x="6.8" y="9.2" width="2" height="5.6" rx="1"/><rect x="8.4" y="11" width="7.2" height="2" rx="1"/><rect x="15.2" y="9.2" width="2" height="5.6" rx="1"/><rect x="18" y="7.6" width="2.4" height="8.8" rx="1.2"/></g></svg></div>
+    <div class="lg">RE<b>P</b>S</div>
+    <p>Install the app on your phone — no app store needed.</p>
+  </div>
+
+  <div class="tabs">
+    <button id="tabIos"><svg viewBox="0 0 24 24"><path d="M16 3a4 4 0 0 1-3 4M12 7c-2 0-4-1.5-6 0S3.5 14 6 18c1 1.5 2 1 3 1s1.5.5 3 .5 2-.5 3-.5 2-.5 3-2c1.2-1.8 1.8-3.5 1.8-3.5"/></svg>iPhone</button>
+    <button id="tabAndroid"><svg viewBox="0 0 24 24"><rect x="6" y="3" width="12" height="18" rx="2"/><path d="M11 18h2"/></svg>Android</button>
+  </div>
+
+  <!-- iOS -->
+  <div class="panel" id="pIos">
+    <div class="card">
+      <div class="recommend">Add to Home Screen</div>
+      <h2>Install on iPhone &amp; iPad</h2>
+      <p class="lead">Apple doesn't allow downloadable app files, so Reps installs straight from Safari. It then opens full-screen, just like a normal app.</p>
+      <ol class="steps">
+        <li>Open this page in <b>Safari</b> (not Chrome) if you aren't already.</li>
+        <li>Tap the <b>Share</b> button <span class="share"><svg viewBox="0 0 24 24"><path d="M12 15V3M8 7l4-4 4 4M5 12v7a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-7"/></svg></span> at the bottom of the screen.</li>
+        <li>Scroll down and tap <b>Add to Home Screen</b>.</li>
+        <li>Tap <b>Add</b> — the Reps icon appears on your home screen.</li>
+      </ol>
+    </div>
+    <a href="/" class="btn btn-line">Open Reps in the browser</a>
+  </div>
+
+  <!-- Android -->
+  <div class="panel" id="pAndroid">
+    <div class="card">
+      <div class="recommend">Recommended</div>
+      <h2>Install on Android</h2>
+      <p class="lead">Install Reps directly — it runs full-screen like any app and updates itself.</p>
+      <button class="btn btn-accent" id="btnInstall"><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 19h14"/></svg>Install app</button>
+      <p class="note" id="installHint">If the button doesn't respond, open this page in <b>Chrome</b>, then tap ⋮ → <b>Install app</b>.</p>
+    </div>
+    <div class="divider">or download the file</div>
+    <div class="card">
+      <h2>Download the APK</h2>
+      <p class="lead">Prefer a file you can keep or share? Download the Android app package. You may need to allow “install from unknown sources” the first time.</p>
+      <a class="btn btn-line" id="btnApk" href="/downloads/reps.apk" download><svg viewBox="0 0 24 24"><path d="M12 3v12M8 11l4 4 4-4M5 19h14"/></svg>Download APK</a>
+      <p class="note" id="apkNote"></p>
+    </div>
+  </div>
+
+  <div class="panel" id="pDesktop">
+    <div class="card qr">
+      <div class="recommend" style="text-align:center">On your computer?</div>
+      <h2 style="text-align:center">Open this on your phone</h2>
+      <p class="lead" style="text-align:center;margin-bottom:0">Visit this address in your phone's browser to install Reps, then follow the steps for your device.</p>
+      <div class="urlbox" id="urlBox"></div>
+    </div>
+  </div>
+
+  <a href="/" class="openlink">Skip — just open Reps →</a>
+</div>
+<script src="/install.js"></script>
+</body>
+</html>

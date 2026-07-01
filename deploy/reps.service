@@ -1,0 +1,21 @@
+# Keeps Reps running and restarts it on crash/reboot.
+# Copy to /etc/systemd/system/reps.service, edit paths/User, then:
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now reps
+
+[Unit]
+Description=Reps fitness app
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/reps
+ExecStart=/usr/bin/node server.js
+EnvironmentFile=/opt/reps/.env
+Environment=NODE_ENV=production
+Restart=on-failure
+RestartSec=5
+User=reps
+
+[Install]
+WantedBy=multi-user.target

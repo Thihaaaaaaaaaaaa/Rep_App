@@ -1,0 +1,19 @@
+# Reverse proxy for Reps. Put this at /etc/nginx/sites-available/reps
+# then: sudo ln -s /etc/nginx/sites-available/reps /etc/nginx/sites-enabled/
+# Run certbot afterwards to add HTTPS automatically (it edits this file).
+
+server {
+    listen 80;
+    server_name your-domain.com;        # <-- change this
+
+    client_max_body_size 8M;            # allow photo uploads
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

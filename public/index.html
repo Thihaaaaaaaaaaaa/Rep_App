@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reps</title>
+<link rel="manifest" href="/manifest.json"/>
+<meta name="theme-color" content="#131418"/>
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link rel="icon" href="/favicon-32.png" sizes="32x32"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="Reps"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap');
+:root{--bg:#131418;--surface:#1A1C21;--surface2:#23262D;--line:rgba(255,255,255,.075);--line2:rgba(255,255,255,.14);
+  --text:#F1F0EC;--muted:#8B8F97;--faint:#585C64;--accent:#D6A24A;--accent-dim:rgba(214,162,74,.16);
+  --green:#5FB87E;--green-dim:rgba(95,184,126,.14);--red:#E07177}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:'Hanken Grotesk',system-ui,sans-serif;background:#0A0B0D;color:var(--text);display:flex;justify-content:center;min-height:100vh}
+.phone{width:390px;max-width:100%;min-height:100vh;background:var(--bg);position:relative;display:flex;flex-direction:column}
+@media(min-width:430px){.phone{margin:24px 0;min-height:auto;height:840px;border-radius:42px;overflow:hidden;box-shadow:0 40px 80px -25px rgba(0,0,0,.7),0 0 0 11px #0d0e10,0 0 0 12px #313338}}
+h1,h2,h3,.mono{font-family:'Space Grotesk',sans-serif}.mono{font-feature-settings:"tnum" 1;letter-spacing:-.01em}
+.eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--faint)}
+.screen{flex:1;overflow-y:auto;padding:30px 20px 96px;display:none;scrollbar-width:none}
+.screen::-webkit-scrollbar{display:none}.screen.active{display:block;animation:fade .3s}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.head{margin-bottom:20px}.head h1{font-size:25px;font-weight:600;letter-spacing:-.02em;margin-top:5px}.head .sub{color:var(--muted);font-size:13px;margin-top:3px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:11px}
+.sec{display:flex;justify-content:space-between;align-items:center;margin:22px 2px 11px}.sec h2{font-size:15px;font-weight:500}.sec a{font-size:12.5px;color:var(--accent);font-weight:600;cursor:pointer}
+.btn{border:none;font-family:'Hanken Grotesk';font-weight:600;font-size:13.5px;border-radius:10px;padding:10px 15px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:opacity .15s}
+.btn:active{opacity:.7}.btn-primary{background:var(--text);color:#15161A}.btn-line{background:transparent;color:var(--text);border:1px solid var(--line2)}.btn-accent{background:var(--accent);color:#1a130a}
+.btn-block{width:100%;padding:13px}.btn-xs{padding:8px 13px;font-size:12.5px}
+.row{display:flex;align-items:center;gap:13px}
+.row .tile{width:42px;height:42px;border-radius:11px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:600;font-size:13px;flex-shrink:0}
+.row .tile.acc{background:var(--accent-dim);color:var(--accent)}.row .info{flex:1;min-width:0}.row .info h3{font-size:14.5px;font-weight:600}.row .info p{font-size:12.5px;color:var(--muted);margin-top:1px}
+.row .arr{color:var(--faint);font-family:'Space Grotesk';font-size:18px}
+.pill{display:inline-block;font-size:10.5px;font-weight:600;padding:4px 9px;border-radius:6px;background:var(--surface2);color:var(--muted);margin:0 5px 5px 0}
+.pill.acc{background:var(--accent-dim);color:var(--accent)}
+.field{margin-bottom:11px}.field label{display:block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:6px}
+.field input{width:100%;border:1px solid var(--line2);border-radius:10px;padding:12px 13px;font-size:14px;background:var(--surface);color:var(--text);font-family:inherit}
+.field input:focus{outline:none;border-color:var(--accent)}
+.kv{display:flex;justify-content:space-between;align-items:center;padding:11px 0;border-top:1px solid var(--line);font-size:13.5px}
+.kv:first-child{border-top:none}.kv .k{color:var(--muted)}.kv .v{font-weight:600;display:flex;gap:7px;align-items:center}
+.kv .v input{width:72px;border:1px solid var(--line);border-radius:8px;padding:6px;font-family:'Space Grotesk';font-weight:600;font-size:14px;text-align:center;background:var(--surface2);color:var(--text)}
+/* dash + ring */
+.dash{display:flex;align-items:center;gap:18px}.dash .meta{flex:1}.dash .line{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-top:1px solid var(--line)}
+.dash .line:first-of-type{border-top:none;padding-top:0}.dash .line span{font-size:13px;color:var(--muted)}.dash .line b{font-family:'Space Grotesk';font-weight:600;font-size:17px}.dash .line b.acc{color:var(--accent)}
+.ring{position:relative;flex-shrink:0}.ring svg{transform:rotate(-90deg)}.ring circle{fill:none}.ring .c{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ring .c b{font-family:'Space Grotesk';font-weight:600;line-height:1}.ring .c small{color:var(--muted)}
+/* streak */
+.streak .st-top{display:flex;align-items:center;gap:15px;margin-bottom:14px}.st-flame{display:flex;align-items:center;gap:8px;color:var(--accent)}.st-flame svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.st-flame b{font-family:'Space Grotesk';font-size:32px;line-height:1}
+.st-info{flex:1}.st-info p{font-size:12.5px;color:var(--muted);margin-top:3px}
+.week-dots{display:flex;gap:6px}.week-dots .wd{flex:1;text-align:center}.week-dots .wd .dot{width:100%;aspect-ratio:1;max-width:34px;margin:0 auto 5px;border-radius:10px;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:transparent;font-weight:700}
+.week-dots .wd.on .dot{background:var(--accent-dim);border-color:transparent;color:var(--accent)}.week-dots .wd span{font-size:9px;color:var(--faint);font-weight:600}
+/* goals mini */
+.goalbar{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}.goalbar:first-child{border-top:none;padding-top:2px}
+.goalbar .gm{flex:1}.goalbar .gm .t{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px}.goalbar .gm .t b{font-family:'Space Grotesk';font-weight:600}.goalbar .gm .t span{color:var(--muted)}
+.track{height:5px;background:var(--surface2);border-radius:4px;overflow:hidden}.track i{display:block;height:100%;background:var(--accent);border-radius:4px}
+/* segmented + chips */
+.seg{display:flex;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:3px;margin-bottom:16px}
+.seg button{flex:1;background:none;border:none;color:var(--muted);font-family:'Hanken Grotesk';font-weight:600;font-size:12.5px;padding:8px;border-radius:9px;cursor:pointer}.seg button.on{background:var(--surface2);color:var(--text)}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin-bottom:14px;padding-bottom:2px}.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer}.chip.on{background:var(--accent-dim);color:var(--accent);border-color:transparent}
+/* cover + media */
+.cover{height:130px;border-radius:16px;margin-bottom:14px;position:relative;overflow:hidden;background:linear-gradient(135deg,#26282E,#1A1C21);border:1px solid var(--line);display:flex;align-items:flex-end;padding:16px}
+.cover .mark{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:600;font-size:42px;color:rgba(255,255,255,.05)}.cover h1{font-size:22px;position:relative}
+.media{height:150px;border-radius:14px;background:var(--surface2);border:1px solid var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--faint);margin-bottom:14px}.media .play{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--text);font-size:18px}.media small{font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.dblock{margin-top:14px}.dblock .lbl{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+.dlist{list-style:none}.dlist li{font-size:13.5px;color:var(--muted);padding:7px 0 7px 18px;border-top:1px solid var(--line);position:relative;line-height:1.4}.dlist li:first-child{border-top:none}.dlist li:before{content:"";position:absolute;left:2px;top:14px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.dlist.num{counter-reset:s}.dlist.num li:before{content:counter(s);counter-increment:s;background:none;color:var(--faint);font-family:'Space Grotesk';font-weight:600;font-size:11px;top:7px;left:0;width:auto;height:auto}
+/* set rows */
+.ex{margin-top:16px}.ex .exhead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}.ex .exhead h3{font-size:14.5px;font-weight:600}.ex .exhead span{font-size:11px;color:var(--faint);font-weight:600}
+.colhead{display:flex;gap:8px;font-size:9px;color:var(--faint);font-weight:600;padding-left:28px;margin-bottom:2px}.colhead span{width:50px;text-align:center}
+.setrow{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px solid var(--line)}.setrow .sn{width:20px;font-size:11px;font-weight:700;color:var(--faint);font-family:'Space Grotesk';text-align:center}
+.setrow input{width:50px;border:1px solid var(--line);border-radius:8px;padding:7px 2px;font-family:'Space Grotesk';font-weight:600;font-size:14px;text-align:center;background:var(--surface2);color:var(--text)}.setrow input:focus{outline:none;border-color:var(--line2)}
+.setrow .tick{margin-left:auto;width:27px;height:27px;border-radius:8px;border:1px solid var(--line2);background:transparent;cursor:pointer;color:transparent;font-weight:700;display:flex;align-items:center;justify-content:center}.setrow.done .tick{background:var(--text);border-color:var(--text);color:#15161A}
+.sstats{display:flex;gap:9px;margin-bottom:4px}.sstat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:11px 8px;text-align:center}.sstat .v{font-family:'Space Grotesk';font-weight:600;font-size:18px}.sstat .v.acc{color:var(--accent)}.sstat .l{font-size:10px;color:var(--muted);margin-top:1px}
+/* timer */
+.timer-wrap{display:flex;flex-direction:column;align-items:center;padding-top:4px}.ring2{position:relative;width:230px;height:230px;margin:6px 0 22px}.ring2 svg{transform:rotate(-90deg)}.ring2 circle{fill:none}
+.ring2 .read{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}.ring2 .read .t{font-family:'Space Grotesk';font-weight:500;font-size:54px;letter-spacing:-.03em}.ring2 .read .lab{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);font-weight:600;margin-top:4px}
+.presets{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-bottom:20px}.preset{border:1px solid var(--line);background:var(--surface);border-radius:9px;padding:9px 14px;font-family:'Space Grotesk';font-weight:600;font-size:13.5px;cursor:pointer;color:var(--muted)}.preset.sel{background:var(--accent-dim);color:var(--accent);border-color:transparent}
+/* nutrition + stepper */
+.add-food{display:flex;gap:7px;margin:0 0 12px}.add-food input{flex:1;border:1px solid var(--line);border-radius:10px;padding:11px 13px;font-size:13.5px;background:var(--surface);color:var(--text)}.add-food input.kcal{flex:0 0 70px;font-family:'Space Grotesk';font-weight:600;text-align:center}.add-food input:focus{outline:none;border-color:var(--line2)}
+.quick{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}.qchip{font-size:11.5px;font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:20px;padding:6px 11px;cursor:pointer;color:var(--muted)}
+.fooditem{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line)}.fooditem .fn{flex:1;font-weight:500;font-size:13.5px}.fooditem .fk{font-family:'Space Grotesk';font-weight:600;font-size:14px;color:var(--muted)}.fooditem .del{color:var(--faint);cursor:pointer;font-size:16px}
+/* chart */
+.chartbox{height:160px}.chartbox svg{width:100%;height:100%}.chart-meta{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px}.chart-meta .v{font-family:'Space Grotesk';font-weight:600;font-size:26px}
+/* measurements / prs */
+.meas{display:flex;align-items:center;gap:13px;padding:11px 0;border-top:1px solid var(--line)}.meas:first-child{border-top:none}.meas .mn{flex:1;font-size:13.5px;font-weight:500}.meas .mv{font-family:'Space Grotesk';font-weight:600;font-size:15px}.meas .md{font-size:11px;color:var(--muted);width:80px;text-align:right}
+.bars{display:flex;align-items:flex-end;gap:8px;height:120px;margin:6px 2px 2px}.bars .b{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}.bars .b i{width:100%;background:var(--surface2);border-radius:5px;transition:.4s;min-height:4px}.bars .b.on i{background:var(--accent)}.bars .b span{font-size:9px;color:var(--faint);font-weight:600}
+/* calendar */
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px}.cal .dow{text-align:center;font-size:9px;color:var(--faint);font-weight:600}
+.cell{aspect-ratio:1;border-radius:9px;background:var(--surface2);border:1px solid var(--line);position:relative;overflow:hidden;display:flex;align-items:flex-start;justify-content:flex-end;cursor:pointer}.cell.empty{background:transparent;border:none;cursor:default}.cell .dn{font-size:9px;color:var(--faint);font-weight:600;padding:3px;z-index:2;position:relative}.cell.has .dn{color:#fff;text-shadow:0 1px 2px #000}.cell img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* goal cards */
+.goalgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}.gcard{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;cursor:pointer;transition:.15s}.gcard.on{border-color:var(--accent);background:var(--accent-dim)}.gcard h3{font-size:13.5px;font-weight:600}.gcard p{font-size:11px;color:var(--faint);margin-top:2px}
+/* builder */
+.bx{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:10px}
+.bx .bxh{display:flex;align-items:center;gap:8px;margin-bottom:10px}.bx .bxh input{flex:1;border:1px solid var(--line);border-radius:9px;padding:9px;font-size:14px;font-weight:600;background:var(--surface2);color:var(--text)}
+.bx .bxh .ic{color:var(--faint);cursor:pointer;font-size:16px;font-weight:700}.bx .bxr{display:flex;gap:8px}.bx .bxr>div{flex:1;text-align:center}.bx .bxr .l{font-size:9px;color:var(--faint);font-weight:600;text-transform:uppercase;margin-bottom:5px}.bx .bxr input{width:100%;border:1px solid var(--line);border-radius:9px;padding:8px 2px;font-family:'Space Grotesk';font-weight:600;font-size:15px;text-align:center;background:var(--surface2);color:var(--text)}
+/* friends */
+.idbox{background:var(--accent-dim);border-radius:12px;padding:14px;margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}.idbox .l{font-size:11px;color:var(--muted)}.idbox .c{font-family:'Space Grotesk';font-weight:600;font-size:18px;letter-spacing:.04em;color:var(--accent)}
+.fcard{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}.fcard:first-child{border-top:none}.fcard .fav{width:40px;height:40px;border-radius:12px;background:var(--surface2);display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-weight:600;font-size:15px;flex-shrink:0}.fcard .fi{flex:1}.fcard .fi h3{font-size:14px;font-weight:600}.fcard .fi p{font-size:11.5px;color:var(--muted);margin-top:1px}
+.badge{font-size:10px;font-weight:600;padding:3px 8px;border-radius:6px;background:var(--surface2);color:var(--muted)}.badge.ok{background:var(--green-dim);color:var(--green)}
+.post{margin-bottom:11px}.post .ph{aspect-ratio:4/5;border-radius:12px;overflow:hidden;background:var(--surface2);position:relative;margin-bottom:10px}.post .ph img{width:100%;height:100%;object-fit:cover}.post .ph .who{position:absolute;left:10px;bottom:10px;font-weight:600;font-size:13px;text-shadow:0 1px 3px #000}
+.react{display:flex;gap:9px}.react button{flex:1;background:var(--surface2);border:1px solid var(--line);color:var(--text);border-radius:11px;padding:10px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer}.react button.on-l{background:var(--accent-dim);border-color:transparent;color:var(--accent)}.react button.on-s{background:var(--green-dim);border-color:transparent;color:var(--green)}
+/* nav + misc */
+.nav{position:absolute;bottom:0;left:0;right:0;height:78px;background:rgba(19,20,24,.9);backdrop-filter:blur(18px);border-top:1px solid var(--line);display:none;padding:9px 6px 20px}.nav.show{display:flex}
+.nav button{flex:1;background:none;border:none;color:var(--faint);font-family:inherit;font-size:9.5px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px}.nav button.on{color:var(--accent)}.nav svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.row .tile svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.sub{display:none}.sub.active{display:block;animation:fade .28s}.back{display:flex;align-items:center;gap:6px;background:none;border:none;font-family:inherit;font-weight:600;font-size:13px;color:var(--muted);cursor:pointer;margin-bottom:14px;padding:0}
+.empty{color:var(--muted);font-size:13px;padding:6px 0}
+.rest{position:absolute;left:12px;right:12px;bottom:88px;background:var(--surface2);border:1px solid var(--line2);border-radius:16px;padding:13px 16px;display:none;align-items:center;gap:12px;z-index:25;box-shadow:0 20px 40px rgba(0,0,0,.5)}.rest.show{display:flex}
+.rest .rt{font-family:'Space Grotesk';font-weight:600;font-size:26px;flex:1}.rest .rl{font-size:10px;color:var(--faint);letter-spacing:.16em;text-transform:uppercase}.rest button{background:rgba(255,255,255,.08);border:none;color:var(--text);font-family:inherit;font-weight:600;font-size:12px;padding:8px 12px;border-radius:9px;cursor:pointer}.rest .skip{background:var(--accent);color:#1a130a}
+/* auth + toast */
+.auth{flex:1;display:none;flex-direction:column;justify-content:center;padding:36px 26px}.auth.active{display:flex}
+.brand{text-align:center;margin-bottom:30px}.brand .lg{font-family:'Space Grotesk';font-weight:700;font-size:32px;letter-spacing:.12em}.brand .lg b{color:var(--accent)}.brand p{color:var(--muted);font-size:13px;margin-top:6px}
+.auth h2{font-size:19px;font-weight:600;margin-bottom:16px}.foot{text-align:center;margin-top:20px;font-size:13px;color:var(--muted)}.foot b{color:var(--accent);cursor:pointer}
+.toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);background:var(--surface2);border:1px solid var(--line2);color:var(--text);padding:12px 18px;border-radius:12px;font-size:13px;font-weight:500;z-index:99;opacity:0;transition:.25s;pointer-events:none;max-width:340px;text-align:center}.toast.show{opacity:1}.toast.err{border-color:var(--red);color:var(--red)}
+.splash{position:absolute;inset:0;z-index:200;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .42s ease}
+.splash.hide{opacity:0;pointer-events:none}
+.sp-logo{width:74px;height:74px;border-radius:21px;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:18px;animation:spPulse 1.6s ease-in-out infinite}
+.sp-logo svg{width:40px;height:40px;fill:none;stroke:var(--accent);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+@keyframes spPulse{0%,100%{transform:scale(1);opacity:.92}50%{transform:scale(1.06);opacity:1}}
+.sp-word{font-family:'Space Grotesk';font-weight:700;font-size:26px;letter-spacing:.14em;margin-bottom:24px}.sp-word b{color:var(--accent)}
+.sp-bar{width:150px;height:4px;border-radius:3px;background:var(--surface2);overflow:hidden;position:relative}
+.sp-bar i{position:absolute;top:0;left:-42%;width:42%;height:100%;background:var(--accent);border-radius:3px;animation:spSlide 1.15s ease-in-out infinite}
+@keyframes spSlide{0%{left:-42%}100%{left:100%}}
+.sp-status{margin-top:16px;font-size:12.5px;color:var(--muted);font-weight:500}
+</style>
+</head>
+<body>
+<div class="phone">
+  <!-- boot splash (shown while the server wakes / session is checked) -->
+  <div class="splash" id="splash">
+    <div class="sp-logo"><svg viewBox="0 0 24 24"><path d="M6.5 6.5v11M3 9v6M17.5 6.5v11M21 9v6M6.5 12h11"/></svg></div>
+    <div class="sp-word">RE<b>P</b>S</div>
+    <div class="sp-bar"><i></i></div>
+    <div class="sp-status" id="splashStatus">Starting up…</div>
+  </div>
+  <!-- AUTH -->
+  <div class="auth active" id="a-login">
+    <div class="brand"><div class="lg">RE<b>P</b>S</div><p>Train with intent.</p></div>
+    <div class="field"><label>Email</label><input id="liEmail" type="email" placeholder="you@example.com"/></div>
+    <div class="field"><label>Password</label><input id="liPass" type="password" placeholder="Your password"/></div>
+    <button class="btn btn-primary btn-block" id="btnLogin">Sign in</button>
+    <div class="foot">New here? <b id="toSignup">Create account</b></div>
+    <div class="foot" style="margin-top:10px"><a href="/install" style="color:var(--faint);text-decoration:none;font-size:12px">📲 Install Reps on your phone</a></div>
+  </div>
+  <div class="auth" id="a-signup">
+    <div class="brand"><div class="lg">RE<b>P</b>S</div></div><h2>Create account</h2>
+    <div class="field"><label>Name</label><input id="suName" placeholder="Alex Carter"/></div>
+    <div class="field"><label>Email</label><input id="suEmail" type="email" placeholder="you@example.com"/></div>
+    <div class="field"><label>Password</label><input id="suPass" type="password" placeholder="Min. 6 characters"/></div>
+    <button class="btn btn-primary btn-block" id="btnSignup">Create account</button>
+    <div class="foot">Have an account? <b id="toLogin">Sign in</b></div>
+  </div>
+
+  <!-- HOME -->
+  <section class="screen" id="home">
+    <div class="head"><div class="eyebrow" id="homeDate">Today</div><h1 id="homeHi">Welcome</h1></div>
+    <div class="card streak"><div class="st-top"><div class="st-flame"><svg viewBox="0 0 24 24"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4"/></svg><b class="mono" id="streakNum">0</b></div>
+      <div class="st-info"><div class="eyebrow">Week streak</div><p id="streakStatus">2+ gym days a week keeps it alive</p></div></div>
+      <div class="week-dots" id="weekDots"></div></div>
+    <div class="sec"><h2>Today's plan</h2></div>
+    <div class="card row" id="todayPlan"><div class="tile acc">P</div><div class="info"><h3>Push Day</h3><p>6 exercises</p></div><button class="btn btn-primary btn-xs" id="btnTodayStart">Start</button></div>
+    <div class="sec"><h2>Daily goals</h2><a id="toGoals2">Edit</a></div>
+    <div class="card" id="homeGoals"><p class="empty">Loading…</p></div>
+  </section>
+
+  <!-- WORKOUTS -->
+  <section class="screen" id="workouts">
+    <div id="wkMain">
+      <div class="head"><div class="eyebrow">Library</div><h1>Workouts</h1></div>
+      <div class="seg"><button class="on" data-w="programs">Programs</button><button data-w="library">Exercises</button><button data-w="mine">My workouts</button></div>
+      <div id="wp-programs"><div id="programList"></div></div>
+      <div id="wp-library" style="display:none"><div class="chips" id="catChips"></div><div id="exerciseList"></div></div>
+      <div id="wp-mine" style="display:none"><button class="btn btn-line btn-block" style="margin-bottom:14px" id="btnNewWorkout">+ Create workout</button><div id="templateList"><p class="empty">Loading…</p></div></div>
+    </div>
+    <div class="sub" id="wkSub"></div>
+  </section>
+
+  <!-- TRACK -->
+  <section class="screen" id="track">
+    <div id="trkMain">
+      <div class="head"><div class="eyebrow">Today</div><h1>Track</h1></div>
+      <div class="card row" id="trkStart"><div class="tile acc"><svg viewBox="0 0 24 24"><path d="M6.5 6.5v11M3 9v6M17.5 6.5v11M21 9v6M6.5 12h11"/></svg></div><div class="info"><h3>Start a workout</h3><p>Log sets, reps &amp; RPE</p></div><div class="arr">›</div></div>
+      <div class="card row" id="trkFood"><div class="tile"><svg viewBox="0 0 24 24"><path d="M6 3v7a2 2 0 0 0 4 0V3M8 10v11M18 3c-1.6 0-2.5 2-2.5 5s.9 4 2.5 4M18 12v9"/></svg></div><div class="info"><h3>Nutrition</h3><p><span class="mono" id="trkKcal">0</span> kcal today</p></div><div class="arr">›</div></div>
+      <div class="card row" id="trkTimer"><div class="tile"><svg viewBox="0 0 24 24"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M9.5 2h5"/></svg></div><div class="info"><h3>Rest timer</h3><p>Presets &amp; custom</p></div><div class="arr">›</div></div>
+      <div class="sec"><h2>Daily log</h2></div>
+      <div class="card">
+        <div class="goalbar"><div class="gm"><div class="t"><b>Water</b><span><span id="waterV">0</span> / 2500 ml</span></div><div class="track"><i id="waterBar" style="width:0%"></i></div></div><button class="btn btn-line btn-xs" id="btnWater">+250</button></div>
+        <div class="goalbar"><div class="gm"><div class="t"><b>Steps</b><span><span id="stepsV">0</span> / 10000</span></div><div class="track"><i id="stepsBar" style="width:0%"></i></div></div><button class="btn btn-line btn-xs" id="btnSteps">Log</button></div>
+        <div class="goalbar"><div class="gm"><div class="t"><b>Sleep</b><span><span id="sleepV">—</span> / 8 h</span></div><div class="track"><i id="sleepBar" style="width:0%"></i></div></div><button class="btn btn-line btn-xs" id="btnSleep">Log</button></div>
+        <div class="goalbar"><div class="gm"><div class="t"><b>Weight check-in</b><span><span id="wtV">—</span> kg</span></div></div><button class="btn btn-line btn-xs" id="btnWeight">Log</button></div>
+      </div>
+    </div>
+    <div class="sub" id="trkSub"></div>
+  </section>
+
+  <!-- PROGRESS -->
+  <section class="screen" id="progress">
+    <div class="head"><div class="eyebrow">Analytics</div><h1>Progress</h1></div>
+    <div class="chips" id="metricChips"></div>
+    <div class="card"><div class="chart-meta"><div><div class="eyebrow" id="chartLbl">—</div><div class="v mono" id="chartVal">—</div></div></div><div class="chartbox" id="chartBox"></div></div>
+    <div class="sec"><h2>Body measurements</h2><a id="btnAddMeas">Add</a></div>
+    <div class="card" id="measList"><p class="empty">Loading…</p></div>
+    <div class="sec"><h2>Personal records</h2><a id="btnAddPr">Add</a></div>
+    <div class="card" id="prList"><p class="empty">Loading…</p></div>
+    <div class="sec"><h2>Progress photos</h2><a id="btnAddPhoto2">Add</a></div>
+    <input type="file" id="photoUpload" accept="image/*" style="display:none"/>
+    <div class="card"><div id="calHead" class="head" style="margin-bottom:12px"></div><div class="cal" id="calGrid"></div></div>
+  </section>
+
+  <!-- FRIENDS -->
+  <section class="screen" id="friends">
+    <div class="head"><div class="eyebrow">Community</div><h1>Friends</h1></div>
+    <div class="idbox"><div><div class="l">Your friend ID</div><div class="c mono" id="myCode">…</div></div><button class="btn btn-line btn-xs" id="btnCopy">Copy</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:14px"><input id="addCode" placeholder="Add by ID e.g. REPS-3F8A" style="flex:1;border:1px solid var(--line2);border-radius:10px;padding:11px 13px;font-size:13.5px;background:var(--surface);color:var(--text)"/><button class="btn btn-primary" id="btnAddFriend">Add</button></div>
+    <div class="sec" style="margin-top:6px"><h2>Your friends</h2></div>
+    <div class="card" id="friendList"><p class="empty">Loading…</p></div>
+    <div class="sec"><h2>Friends' progress</h2></div>
+    <div id="feed"><p class="empty">When friends post a photo, it shows here.</p></div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="screen" id="profile">
+    <div id="pfMain">
+      <div class="head"><div class="eyebrow">Account</div><h1>Profile</h1></div>
+      <div class="card"><div class="row" style="margin-bottom:4px"><div class="tile acc" id="pfInitial">A</div><div class="info"><h3 id="pfName">—</h3><p id="pfEmail">—</p></div></div></div>
+      <div class="sec"><h2>Body stats</h2></div>
+      <div class="card">
+        <div class="kv"><span class="k">Height</span><span class="v"><input id="pfH" class="mono" inputmode="numeric"/> cm</span></div>
+        <div class="kv"><span class="k">Weight</span><span class="v"><input id="pfW" class="mono" inputmode="decimal"/> kg</span></div>
+        <div class="kv"><span class="k">BMI</span><span class="v mono" id="pfBMI" style="color:var(--accent)">—</span></div>
+        <div class="kv"><span class="k">Fitness level</span><span class="v" id="pfLevel">Beginner</span></div>
+      </div>
+      <div class="sec"><h2>Goals</h2><a id="toGoals">Manage</a></div>
+      <div class="card" id="pfGoals"><p class="empty">—</p></div>
+      <button class="btn btn-line btn-block" style="margin-top:14px;color:var(--red);border-color:rgba(224,113,119,.3)" id="btnLogout">Log out</button>
+      <button class="btn btn-line btn-block" style="margin-top:8px;color:var(--faint);border-color:var(--line)" id="btnDeleteAccount">Delete my account</button>
+    </div>
+    <div class="sub" id="pfSub"></div>
+  </section>
+
+  <div class="rest" id="restPop"><div><div class="rl">Rest</div><div class="rt mono" id="restRead">1:30</div></div><button id="restAdd">+15s</button><button class="skip" id="restSkip">Skip</button></div>
+
+  <nav class="nav" id="nav">
+    <button class="on" data-t="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Home</button>
+    <button data-t="workouts"><svg viewBox="0 0 24 24"><path d="M6.5 6.5v11M3 9v6M17.5 6.5v11M21 9v6M6.5 12h11"/></svg>Workouts</button>
+    <button data-t="track"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>Track</button>
+    <button data-t="progress"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16M8 16l4-5 3 3 5-7"/></svg>Progress</button>
+    <button data-t="friends"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 20a5.5 5.5 0 0 1 11 0M16 5.2a3.2 3.2 0 0 1 0 5.6M16.5 20a5.5 5.5 0 0 0-1.8-4.1"/></svg>Friends</button>
+    <button data-t="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path d="M5.5 20a6.5 6.5 0 0 1 13 0"/></svg>Profile</button>
+  </nav>
+</div>
+<div class="toast" id="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>

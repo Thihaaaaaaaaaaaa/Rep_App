@@ -1,0 +1,15 @@
+{
+  "name": "Reps — Fitness",
+  "short_name": "Reps",
+  "description": "Log workouts, track progress photos, keep your streak, and share with friends.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#131418",
+  "theme_color": "#131418",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
