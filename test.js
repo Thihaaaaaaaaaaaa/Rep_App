@@ -108,6 +108,64 @@ const server = app.listen(0, async () => {
     assert.strictEqual(r.status, 401); // still 401 (no auth) but header handled fine
   });
 
+  // Regression test: on Node versions below 22, @supabase/supabase-js's
+  // realtime client throws at construction time unless a WebSocket
+  // implementation is explicitly supplied — even though this app never
+  // uses realtime subscriptions, the client is still built internally.
+  // This took down a real deploy on Render's Node 20 runtime. Simulate
+  // "no native WebSocket" the same way Node <22 lacks it, and confirm
+  // the actual server.js still loads without crashing.
+  await check('server.js loads without crashing when no native WebSocket is present (Node <22 on Render)', async () => {
+    const { execFileSync } = require('child_process');
+    const script = `
+      delete globalThis.WebSocket;
+      process.env.NODE_ENV = 'test';
+      process.env.SUPABASE_URL = process.env.SUPABASE_URL || 'https://example.supabase.co';
+      process.env.SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY || 'test-anon-key';
+      process.env.SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || 'test-service-key';
+      process.env.ADMIN_EMAILS = process.env.ADMIN_EMAILS || 'admin@example.com';
+      require('./server.js');
+      process.stdout.write('LOADED_OK');
+    `;
+    const out = execFileSync('node', ['-e', script], { cwd: __dirname, encoding: 'utf8' });
+    assert.ok(out.includes('LOADED_OK'), 'server.js failed to load without native WebSocket');
+  });
+
+  // Regression test: the server must start listening immediately, even
+  // if Supabase is slow/unreachable. This spawns the REAL production
+  // boot path (`node server.js`, not `require('./server')`), which the
+  // tests above never exercise. It once hung forever because app.listen()
+  // was chained after a Supabase network call — see server.js history.
+  await check('server boots and answers /health even with an unreachable Supabase URL', async () => {
+    const { spawn } = require('child_process');
+    const childPort = 34567;
+    const child = spawn('node', ['server.js'], {
+      cwd: __dirname,
+      env: {
+        ...process.env,
+        NODE_ENV: 'production',
+        PORT: String(childPort),
+        SUPABASE_URL: 'https://reps-regression-test-unreachable.invalid',
+        SUPABASE_ANON_KEY: 'x', SUPABASE_SERVICE_ROLE_KEY: 'x', ADMIN_EMAILS: 'x@x.com'
+      },
+      stdio: 'ignore'
+    });
+    try {
+      const deadline = Date.now() + 4000;
+      let ok = false;
+      while (Date.now() < deadline) {
+        try {
+          const r = await fetch(`http://localhost:${childPort}/health`);
+          if (r.status === 200) { ok = true; break; }
+        } catch (_) { /* not up yet, keep polling */ }
+        await new Promise(r => setTimeout(r, 150));
+      }
+      assert.ok(ok, 'server did not respond to /health within 4s of boot');
+    } finally {
+      child.kill('SIGKILL');
+    }
+  });
+
   console.log(`\n${pass} passed, ${fail} failed`);
   server.close();
   process.exit(fail ? 1 : 0);

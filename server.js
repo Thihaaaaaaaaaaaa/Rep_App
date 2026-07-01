@@ -20,6 +20,7 @@ const path = require('path');
 const fs = require('fs');
 const crypto = require('crypto');
 const { createClient } = require('@supabase/supabase-js');
+const ws = require('ws');
 
 const {
   SUPABASE_URL,
@@ -42,15 +43,23 @@ const ADMINS = new Set(ADMIN_EMAILS.split(',').map(s => s.trim().toLowerCase()).
 
 // Admin (service-role) client — server only. Validates tokens and
 // performs privileged/moderation operations. Never sent to the client.
+//
+// `realtime: { transport: ws }` is required on Node <22: supabase-js
+// always constructs a realtime client internally (even though this app
+// never uses realtime subscriptions), and on Node versions below 22 it
+// throws at construction time unless a WebSocket implementation is
+// explicitly supplied. Without this, the server crashes on boot.
 const admin = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY, {
-  auth: { persistSession: false, autoRefreshToken: false }
+  auth: { persistSession: false, autoRefreshToken: false },
+  realtime: { transport: ws }
 });
 
 // Per-request client bound to the user's token → RLS still applies.
 function userClient(token) {
   return createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
     auth: { persistSession: false, autoRefreshToken: false },
-    global: { headers: { Authorization: `Bearer ${token}` } }
+    global: { headers: { Authorization: `Bearer ${token}` } },
+    realtime: { transport: ws }
   });
 }
 
@@ -577,8 +586,14 @@ app.use((err, req, res, next) => {
 });
 
 if (require.main === module) {
-  loadBans().finally(() =>
-    app.listen(PORT, () =>
-      console.log(`✓ REPS server on http://localhost:${PORT}  | admins: ${[...ADMINS].join(', ') || '(none set)'}`)));
+  // Start listening immediately. If this were gated behind loadBans()
+  // (a network call to Supabase), a slow/unreachable Supabase — a typo'd
+  // URL, a brief outage, a cold database — would leave the ENTIRE server
+  // unreachable, including the static frontend and the /health check
+  // Render uses to confirm the deploy succeeded. Ban enforcement is
+  // still real, it just becomes ready a moment after the server does.
+  app.listen(PORT, () =>
+    console.log(`✓ REPS server on http://localhost:${PORT}  | admins: ${[...ADMINS].join(', ') || '(none set)'}`));
+  loadBans();
 }
 module.exports = app;

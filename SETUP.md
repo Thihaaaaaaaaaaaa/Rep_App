@@ -11,7 +11,8 @@ This package already contains the app inside `public/`.
 1. Create a free project at **supabase.com**.
 2. Open **SQL Editor → New query**, paste in **`schema.sql`**, Run.
 3. Do the same with **`schema-moderation.sql`**.
-4. Go to **Project Settings → API** and copy three values:
+4. Do the same with **`schema-tracking.sql`** (nutrition + daily metrics — Track and Progress screens need this one).
+5. Go to **Project Settings → API** and copy three values:
    - **Project URL**
    - **anon public** key
    - **service_role** key (secret)

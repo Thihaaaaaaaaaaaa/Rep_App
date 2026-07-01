@@ -13,7 +13,7 @@ public/index.html + app.js   →   server.js (Express)   →   Supabase (Postgre
 
 ## Prerequisites
 - Node.js 18 or newer
-- A free Supabase project with `schema.sql` already run in its SQL Editor
+- A free Supabase project with `schema.sql`, `schema-moderation.sql`, and `schema-tracking.sql` already run in its SQL Editor
 
 ## Setup
 1. `cp .env.example .env`
@@ -22,7 +22,7 @@ public/index.html + app.js   →   server.js (Express)   →   Supabase (Postgre
    - `SUPABASE_ANON_KEY` (the *anon public* key)
    - `SUPABASE_SERVICE_ROLE_KEY` (the *service_role* key — secret, server-only)
    - `ADMIN_EMAILS` (your email, so you can reach the admin panel)
-3. In Supabase SQL Editor, run **`schema.sql`** then **`schema-moderation.sql`**
+3. In Supabase SQL Editor, run **`schema.sql`**, then **`schema-moderation.sql`**, then **`schema-tracking.sql`** (three separate runs, in that order)
 4. `npm install`
 5. `npm start`
 6. Open `http://localhost:3000` (app) and `http://localhost:3000/admin.html` (admin)
@@ -47,7 +47,7 @@ that security headers are set, and that no keys leak into the HTML.
 
 > What this does **not** test is the live data path (real signup, saving a
 > session, uploading a photo) — that needs your real Supabase project. Once your
-> `.env` is filled in and `schema.sql` has been run, those work end to end.
+> `.env` is filled in and all three schema files have been run, those work end to end.
 
 ## How it's secured
 - **Keys stay server-side.** The browser only ever calls `/api/*` on this server. No Supabase URL or key is in the frontend (a test asserts this).
